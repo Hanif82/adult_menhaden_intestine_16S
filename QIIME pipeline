@@ -3,3 +3,4 @@
 multiple_join_paired_ends.py -i gz_files/ -o joined_reads
 multiple_split_libraries_fastq.py -i joined_reads/ -o split_libraries/ --include_input_dir_path --remove_filepath_in_name
 
+identify_chimeric_seqs.py -m usearch61 -i split_libraries/seqs.fna -o chimeric_analysis/ --suppress_usearch61_ref --split_by_sampleid

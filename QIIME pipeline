@@ -4,3 +4,35 @@ multiple_join_paired_ends.py -i gz_files/ -o joined_reads
 multiple_split_libraries_fastq.py -i joined_reads/ -o split_libraries/ --include_input_dir_path --remove_filepath_in_name
 
 identify_chimeric_seqs.py -m usearch61 -i split_libraries/seqs.fna -o chimeric_analysis/ --suppress_usearch61_ref --split_by_sampleid
+
+#given the large file size reads were grouped by fish ID and made into separate files
+filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/seqs_B1.fna -p B1
+filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/seqs_B2.fna -p B2
+filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/seqs_B3.fna -p B3
+filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/seqs_B4.fna -p B4
+filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/seqs_C2.fna -p C2
+filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/seqs_D1.fna -p D1
+filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/seqs_D2.fna -p D2
+
+#chimera analysis was then ran on the resulting fna files
+identify_chimeric_seqs.py -i fasta_files/seqs_B1.fna -o chimeric_analysis/B1 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B2.fna -o chimeric_analysis/B2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B3.fna -o chimeric_analysis/B3 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4.fna -o chimeric_analysis/B4 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_C2.fna -o chimeric_analysis/C2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_D1.fna -o chimeric_analysis/D1 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_D2.fna -o chimeric_analysis/D2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+#samples B2, B3, B4, C2, timed out due to high memory use
+#individual samples causing time out were removed from fish ID sequence file and made into own file
+filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4F3.fna -p B4F3
+filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4F1.fna -p B4F1
+filter_fasta.py -f fasta_files/seqs_B2.fna -o fasta_files/seqs_B2F1.fna -p B2F1
+filter_fasta.py -f fasta_files/seqs_B3.fna -o fasta_files/seqs_B3M2.fna -p B3M2
+filter_fasta.py -f fasta_files/seqs_C2.fna -o fasta_files/seqs_C2M3.fna -p C2M3
+
+#make fna files with sample removed
+filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4woB4F3.fna -p B4F3 -n
+filter_fasta.py -f fasta_files/seqs_B2.fna -o fasta_files/seqs_B2wo.fna -p B2F1 -n
+filter_fasta.py -f fasta_files/seqs_B4woB4F3.fna -o fasta_files/seqs_B4wo.fna -p B4F1 -n 
+filter_fasta.py -f fasta_files/seqs_B3.fna -o fasta_files/seqs_B3M2.fna -p B3M2
+filter_fasta.py -f fasta_files/seqs_C2.fna -o fasta_files/seqs_C2wo.fna -p C2M3 -n

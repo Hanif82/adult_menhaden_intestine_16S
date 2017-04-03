@@ -34,5 +34,10 @@ filter_fasta.py -f fasta_files/seqs_C2.fna -o fasta_files/seqs_C2M3.fna -p C2M3
 filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4woB4F3.fna -p B4F3 -n
 filter_fasta.py -f fasta_files/seqs_B2.fna -o fasta_files/seqs_B2wo.fna -p B2F1 -n
 filter_fasta.py -f fasta_files/seqs_B4woB4F3.fna -o fasta_files/seqs_B4wo.fna -p B4F1 -n 
-filter_fasta.py -f fasta_files/seqs_B3.fna -o fasta_files/seqs_B3M2.fna -p B3M2
+filter_fasta.py -f fasta_files/seqs_B3.fna -o fasta_files/seqs_B3wo.fna -p B3M2 -n
 filter_fasta.py -f fasta_files/seqs_C2.fna -o fasta_files/seqs_C2wo.fna -p C2M3 -n
+
+identify_chimeric_seqs.py -i fasta_files/seqs_B4wo.fna -o chimeric_analysis/B4 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_C2wo.fna -o chimeric_analysis/C2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B2wo.fna -o chimeric_analysis/B2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B3wo.fna -o chimeric_analysis/B3 --suppress_usearch61_ref --split_by_sampleid -m usearch61

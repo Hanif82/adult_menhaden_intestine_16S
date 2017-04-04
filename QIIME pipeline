@@ -41,3 +41,17 @@ identify_chimeric_seqs.py -i fasta_files/seqs_B4wo.fna -o chimeric_analysis/B4 -
 identify_chimeric_seqs.py -i fasta_files/seqs_C2wo.fna -o chimeric_analysis/C2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
 identify_chimeric_seqs.py -i fasta_files/seqs_B2wo.fna -o chimeric_analysis/B2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
 identify_chimeric_seqs.py -i fasta_files/seqs_B3wo.fna -o chimeric_analysis/B3 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+#sample B4 timed out due to high memory use
+
+#samples B4F1, B4F2, and B4F3 were removed from file seqs_B4 using the filter_fasta.py script : sample names were put into a new line
+#separated file; B4sample_list.txt 
+filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4wo.fna --sample_id_fp B4sample_list.txt  -n 
+#sample B2F2 was removed from file seqs_B2wo.fna to make seqs_B2wo2.fna using filter_fasta.py script
+filter_fasta.py -f fasta_files/seqs_B2wo.fna -o fasta_files/seqs_B2wo2.fna -p B2F2 -n
+#after this step was completed, file seqs_B2wo.fna was deleted and file seqs_B2wo2.fna was renamed to seqs_B2wo.fna
+
+#new individual samples causing time out were removed from fish ID sequence file and made into own file
+filter_fasta.py -f fasta_files/seqs_B2.fna -o fasta_files/seqs_B2F2.fna -p B2F2 
+filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4F2.fna -p B4F2 
+
+

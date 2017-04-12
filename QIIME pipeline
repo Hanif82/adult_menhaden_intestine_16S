@@ -30,18 +30,20 @@ filter_fasta.py -f fasta_files/seqs_B2.fna -o fasta_files/seqs_B2F1.fna -p B2F1
 filter_fasta.py -f fasta_files/seqs_B3.fna -o fasta_files/seqs_B3M2.fna -p B3M2
 filter_fasta.py -f fasta_files/seqs_C2.fna -o fasta_files/seqs_C2M3.fna -p C2M3
 
-#make fna files with sample removed
+#make fna files with problematic samples removed
 filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4woB4F3.fna -p B4F3 -n
 filter_fasta.py -f fasta_files/seqs_B2.fna -o fasta_files/seqs_B2wo.fna -p B2F1 -n
 filter_fasta.py -f fasta_files/seqs_B4woB4F3.fna -o fasta_files/seqs_B4wo.fna -p B4F1 -n 
 filter_fasta.py -f fasta_files/seqs_B3.fna -o fasta_files/seqs_B3wo.fna -p B3M2 -n
 filter_fasta.py -f fasta_files/seqs_C2.fna -o fasta_files/seqs_C2wo.fna -p C2M3 -n
 
+#chimeric analysis was repeated on subsequent fna files once problematic samples were removed
 identify_chimeric_seqs.py -i fasta_files/seqs_B4wo.fna -o chimeric_analysis/B4 --suppress_usearch61_ref --split_by_sampleid -m usearch61
 identify_chimeric_seqs.py -i fasta_files/seqs_C2wo.fna -o chimeric_analysis/C2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
 identify_chimeric_seqs.py -i fasta_files/seqs_B2wo.fna -o chimeric_analysis/B2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
 identify_chimeric_seqs.py -i fasta_files/seqs_B3wo.fna -o chimeric_analysis/B3 --suppress_usearch61_ref --split_by_sampleid -m usearch61
 #sample B4 timed out due to high memory use
+#sample B2 times out due to high memory use
 
 #samples B4F1, B4F2, and B4F3 were removed from file seqs_B4 using the filter_fasta.py script : sample names were put into a new line
 #separated file; B4sample_list.txt 
@@ -50,8 +52,88 @@ filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4wo.fna --sample
 filter_fasta.py -f fasta_files/seqs_B2wo.fna -o fasta_files/seqs_B2wo2.fna -p B2F2 -n
 #after this step was completed, file seqs_B2wo.fna was deleted and file seqs_B2wo2.fna was renamed to seqs_B2wo.fna
 
+#chimeric analysis was repeated on subsequent fna files once problematic samples were removed
+identify_chimeric_seqs.py -i fasta_files/seqs_B2wo.fna -o chimeric_analysis/B2 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4wo.fna -o chimeric_analysis/B4 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+#sample B4 timed out due to high memory use
+
 #new individual samples causing time out were removed from fish ID sequence file and made into own file
 filter_fasta.py -f fasta_files/seqs_B2.fna -o fasta_files/seqs_B2F2.fna -p B2F2 
 filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4F2.fna -p B4F2 
 
+#sample B4M3 was removed from file seqs_B4wo.fna to make seqs_B4wo2.fna
+filter_fasta.py -f fasta_files/seqs_B4wo.fna -o fasta_files/seqs_B4wo2.fna -p B4M3 -n 
+#after this wtep was completed, file seqs_B4wo.fna was deleted and file seqs_B4wo2.fna was renamed to seqs_B4wo.fna
 
+#chimeric analysis was repeated on subsequent fna file once problematic sample was removed
+identify_chimeric_seqs.py -i fasta_files/seqs_B4wo.fna -o chimeric_analysis/B4 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+
+#new individual sample causing time out were removed from fish ID sequence file and made into own file
+filter_fasta.py -f fasta_files/seqs_B4.fna -o fasta_files/seqs_B4M3.fna -p B4M3
+
+#individual samples that were removed from fish ID sequence file were divided in half using the split command; 
+#before files were divided, the wc command was used to determine the number of lines in the file
+#that number was used to determined what line to split the file. files were split on an even line number 
+#the output from each split results in two files named xaa and xab; these files were renamed and moved into the correct folder using the 
+#command line except for B2F1
+wc -l fasta_files/seqs_B2F1.fna
+split -l 588830 fasta_files/seqs_B2F1.fna 
+wc -l fasta_files/seqs_B2F2.fna 
+split -l 740572 fasta_files/seqs_B2F2.fna
+mv xaa fasta_files/seqs_B2F2a.fna
+mv xab fasta_files/seqs_B2F2b.fna
+wc -l fasta_files/seqs_B3M2.fna 
+split -l 571160 fasta_files/seqs_B3M2.fna
+mv xaa fasta_files/seqs_B3M2a.fna
+mv xab fasta_files/seqs_B3M2b.fna
+wc -l fasta_files/seqs_B4F1.fna 
+split -l 594200 fasta_files/seqs_B4F1.fna
+mv xaa fasta_files/seqs_B4F1a.fna
+mv xab fasta_files/seqs_B4F1b.fna
+wc -l fasta_files/seqs_B4F2.fna 
+split -l 763770 fasta_files/seqs_B4F2.fna
+mv xaa fasta_files/seqs_B4F2a.fna
+mv xab fasta_files/seqs_B4F2b.fna
+wc -l fasta_files/seqs_B4F3.fna 
+split -l 667520 fasta_files/seqs_B4F3.fna
+mv xaa fasta_files/seqs_B4F3a.fna
+mv xab fasta_files/seqs_B4F3b.fna
+wc -l fasta_files/seqs_B4M3.fna
+split -l 912460 fasta_files/seqs_B4M3.fna
+mv xaa fasta_files/seqs_B4M3a.fna
+mv xab fasta_files/seqs_B4M3b.fna
+wc -l fasta_files/seqs_C2M3.fna
+split -l 663640 fasta_files/seqs_C2M3.fna 
+mv xaa fasta_files/C2M3a.fna
+mv xab fasta_files/C2M3b.fna
+
+#chimeric analysis was done on each divided file; all were successful
+identify_chimeric_seqs.py -i fasta_files/seqs_B2F1a.fna -o chimeric_analysis/B2/B2F1/a/ --suppress_usearch61_ref -m usearch61 
+identify_chimeric_seqs.py -i fasta_files/seqs_B2F1b.fna -o chimeric_analysis/B2/B2F1/b --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B2F2a.fna -o chimeric_analysis/B2/B2F2/a --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B2F2b.fna -o chimeric_analysis/B2/B2F2/b --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B3M2a.fna -o chimeric_analysis/B3/B3M2/a --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B3M2b.fna -o chimeric_analysis/B3/B3M2/b --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4F1a.fna -o chimeric_analysis/B4/B4F1/a/ --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4F1b.fna -o chimeric_analysis/B4/B4F1/b --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4F2a.fna -o chimeric_analysis/B4/B4F2/a --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4F2b.fna -o chimeric_analysis/B4/B4F2/b --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4F3a.fna -o chimeric_analysis/B4/B4F3/a --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4F3b.fna -o chimeric_analysis/B4/B4F3/b --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4M3a.fna -o chimeric_analysis/B4/B4M3/a --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_B4M3b.fna -o chimeric_analysis/B4/B4M3/b --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_C2M3a.fna -o chimeric_analysis/C2/C2M3/a/ --suppress_usearch61_ref -m usearch61
+identify_chimeric_seqs.py -i fasta_files/seqs_C2M3b.fna -o chimeric_analysis/C2/C2M3/b/ --suppress_usearch61_ref -m usearch61
+
+#sample D1M3 was not included in the original gz_file due to accidentally being left out; below is the processing
+multiple_join_paired_ends.py -i gz_files_D1M3/ -o joined_reads_D1M3 
+multiple_split_libraries_fastq.py -i joined_reads_D1M3/ -o split_libraries_D1M3/ --include_input_dir_path --remove_filepath_in_name
+identify_chimeric_seqs.py -i split_libraries_D1M3/seqs.fna -o chimeric_analysis/D1/D1M3 -m usearch61 --suppress_usearch61_ref  
+
+#the reads from the remaining adult menhaden samples were given on 03312017; below is there processing
+multiple_join_paired_ends.py -i gz_files_033117/ -o joined_reads_033117
+multiple_split_libraries_fastq.py -i joined_reads_033117/ -o split_libraries_033117/ --include_input_dir_path --remove_filepath_in_name
+#chimaric anlaysis of 033117_adult menhaden
+identify_chimeric_seqs.py -i split_libraries_033117/seqs.fna -o chimeric_analysis/033117 --suppress_usearch61_ref --split_by_sampleid -m usearch61
+
+#merge all resulting chimeric.txt files from the different analyais.

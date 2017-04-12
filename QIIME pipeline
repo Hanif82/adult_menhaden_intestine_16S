@@ -137,3 +137,27 @@ multiple_split_libraries_fastq.py -i joined_reads_033117/ -o split_libraries_033
 identify_chimeric_seqs.py -i split_libraries_033117/seqs.fna -o chimeric_analysis/033117 --suppress_usearch61_ref --split_by_sampleid -m usearch61
 
 #merge all resulting chimeric.txt files from the different analyais.
+cat chimeric_analysis/B2/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B2/B2F1/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B2/B2F1/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B2/B2F2/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B2/B2F2/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B3/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B3/B3M2/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B3/B3M2/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/B4F1/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/B4F1/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/B4F2/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/B4F2/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/B4F3/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/B4F3/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/B4M3/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/B4/B4M3/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/C2/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/C2/C2M3/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/C2/C2M3/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/D1/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/D1/D1M3/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
+cat chimeric_analysis/D2/chimeras.txt >> chimeric_analysis/chimeras_all.txt
+

@@ -137,6 +137,7 @@ multiple_split_libraries_fastq.py -i joined_reads_033117/ -o split_libraries_033
 identify_chimeric_seqs.py -i split_libraries_033117/seqs.fna -o chimeric_analysis/033117 --suppress_usearch61_ref --split_by_sampleid -m usearch61
 
 #merge all resulting chimeric.txt files from the different analyais.
+cat chimeric_analysis/033117/chimeras.txt chimeric_analysis/B1/chimeras.txt > chimeric_analysis/chimeras_all.txt
 cat chimeric_analysis/B2/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
 cat chimeric_analysis/B2/B2F1/a/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
 cat chimeric_analysis/B2/B2F1/b/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
@@ -160,4 +161,8 @@ cat chimeric_analysis/C2/C2M3/b/chimeras.txt >> chimeric_analysis/chimeras_all.t
 cat chimeric_analysis/D1/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
 cat chimeric_analysis/D1/D1M3/chimeras.txt >> chimeric_analysis/chimeras_all.txt 
 cat chimeric_analysis/D2/chimeras.txt >> chimeric_analysis/chimeras_all.txt
+
+#after all chimeric identified sequences have been collected in one txt file, use filter_filter.py script to remove matched
+filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/chi_seqs.fna -s chimeric_analysis/chimeras_all.txt -n 
+
 

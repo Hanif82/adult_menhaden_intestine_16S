@@ -165,4 +165,6 @@ cat chimeric_analysis/D2/chimeras.txt >> chimeric_analysis/chimeras_all.txt
 #after all chimeric identified sequences have been collected in one txt file, use filter_filter.py script to remove matched
 filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/chi_seqs.fna -s chimeric_analysis/chimeras_all.txt -n 
 
+#identifying and removal of PhiX sequences
+parallel_blast.py -i fasta_files/chi_seqs.fna -o fasta_files/chi_phi_seqs.fna -r /Volumes/Data/Menhaden/phiX.fasta
 

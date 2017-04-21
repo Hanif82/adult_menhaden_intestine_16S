@@ -168,3 +168,24 @@ filter_fasta.py -f split_libraries/seqs.fna -o fasta_files/chi_seqs.fna -s chime
 #identifying and removal of PhiX sequences
 parallel_blast.py -i fasta_files/chi_seqs.fna -o fasta_files/chi_phi_seqs.fna -r /Volumes/Data/Menhaden/phiX.fasta
 
+#previous command produces a txt file containing the BLAST results not a fasta file.
+#folder was made called phix_results and results from parallel_blast.py script was moved into that folder
+
+#grep command was used to check for sequences that contain PhiX sequence
+grep "^#" -c -v phix_results/chi_seqs_blast_out.txt
+#if matches are found, grep is done again this time putting the matches in a txt file
+grep "^#" -v phix_results/chi_seqs_blast_out.txt > phix_results/phix_seqs.txt
+#sequences containing PhiX are removed using the filter_fasta.py script
+filter_fasta.py -f fasta_files/chi_seqs.fna -o fasta_files/chi_phi_seqs.fna -s phix_results/phix_seqs.txt -n
+
+#fasta file is now ready for OTU picking
+#below are the OTU picking steps for this data set. OTUs are picked using the pick_open_reference_otus.py script.
+
+
+
+#after otu picking is complete basic statistics data is colloected about the OTUs
+
+
+
+
+
